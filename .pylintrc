@@ -29,7 +29,8 @@ disable =
     no-member,                 # E1101: SQLModel fields work at runtime
     import-outside-toplevel,   # C0415: Intentional for circular import avoidance
     reimported,                # W0404: Intentional lazy import in DI
-    redefined-outer-name       # W0621: Intentional in DI functions
+    redefined-outer-name,      # W0621: Intentional in DI functions
+    import-error               # E0401: Allow imports not installed in dev env
 
 [FORMAT]
 # Maximum number of characters on a single line (handled by ruff)
@@ -77,7 +78,7 @@ min-similarity-lines = 6
 
 [TYPECHECK]
 # Ignore missing members for these modules (dynamic modules)
-ignored-modules = pydantic
+ignored-modules = pydantic, jinja2, weasyprint
 
 [IMPORTS]
 # Allow wildcard imports from these modules

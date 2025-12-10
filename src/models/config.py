@@ -13,6 +13,7 @@ class ReportPeriod(str, Enum):
 
     DAILY = "daily"
     WEEKLY = "weekly"
+    MONTHLY = "monthly"
     CUSTOM = "custom"
 
 
