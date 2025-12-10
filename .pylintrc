@@ -1,0 +1,84 @@
+[MAIN]
+# Python version
+py-version = 3.12
+
+# Use multiple processes
+jobs = 0
+
+# Minimum confidence level for messages
+confidence = HIGH, CONTROL_FLOW, INFERENCE, INFERENCE_FAILURE, UNDEFINED
+
+# Extensions to load
+load-plugins = pylint.extensions.mccabe
+
+[MESSAGES CONTROL]
+# Disable messages handled by ruff (formatting, imports)
+disable =
+    missing-module-docstring,
+    missing-class-docstring,
+    missing-function-docstring,
+    line-too-long,
+    wrong-import-order,
+    ungrouped-imports,
+    wrong-import-position,
+    duplicate-code,
+    too-few-public-methods,
+    fixme,
+    # The following are intentional patterns in this codebase:
+    unnecessary-ellipsis,      # W2301: Valid in abstract methods
+    no-member,                 # E1101: SQLModel fields work at runtime
+    import-outside-toplevel,   # C0415: Intentional for circular import avoidance
+    reimported,                # W0404: Intentional lazy import in DI
+    redefined-outer-name       # W0621: Intentional in DI functions
+
+[FORMAT]
+# Maximum number of characters on a single line (handled by ruff)
+max-line-length = 100
+
+[DESIGN]
+# Maximum number of statements in a function - THE 50 STATEMENT RULE
+max-statements = 50
+
+# Maximum number of arguments for a function
+max-args = 7
+
+# Maximum number of return statements in a function
+max-returns = 6
+
+# Maximum number of branches in a function
+max-branches = 12
+
+# Maximum number of locals in a function
+max-locals = 15
+
+# Maximum number of attributes for a class
+max-attributes = 10
+
+# Maximum number of public methods for a class
+max-public-methods = 20
+
+# Maximum cyclomatic complexity (McCabe)
+max-complexity = 10
+
+[BASIC]
+# Good variable names
+good-names = i, j, k, id, db, _
+
+# Naming styles
+function-naming-style = snake_case
+variable-naming-style = snake_case
+class-naming-style = PascalCase
+const-naming-style = UPPER_CASE
+module-naming-style = snake_case
+
+[SIMILARITIES]
+# Minimum lines of similarity
+min-similarity-lines = 6
+
+[TYPECHECK]
+# Ignore missing members for these modules (dynamic modules)
+ignored-modules = pydantic
+
+[IMPORTS]
+# Allow wildcard imports from these modules
+allow-wildcard-with-all = no

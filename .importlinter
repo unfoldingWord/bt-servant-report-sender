@@ -1,0 +1,27 @@
+[importlinter]
+root_package = src
+include_external_packages = False
+
+# =============================================================================
+# LAYERED ARCHITECTURE CONTRACT
+# Enforces one-way dependencies: outer layers can import inner layers.
+#
+# Layer order (outer to inner):
+#   cli -> services -> parsers -> models
+#
+# What this means:
+# - cli CAN import services, parsers, models
+# - services CAN import parsers, models (NOT cli)
+# - parsers CAN import models (NOT cli, services)
+# - models CAN'T import anything above
+#
+# Note: This contract will be refined as the project architecture develops.
+# =============================================================================
+[importlinter:contract:layers]
+name = Layered Architecture
+type = layers
+layers =
+    src.cli
+    src.services
+    src.parsers
+    src.models
