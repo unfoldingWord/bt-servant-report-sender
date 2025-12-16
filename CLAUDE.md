@@ -23,10 +23,17 @@ Key log events include `PerfReport` entries containing detailed performance metr
 
 ## Git Conventions
 
-When making commits, always use the author "Claude" with:
+### CRITICAL: Author Flag is MANDATORY
+
+**Every single commit MUST use the `--author` flag.** This is non-negotiable.
+
+```bash
+git commit --author="Claude <noreply@anthropic.com>" -m "..."
 ```
-git commit --author="Claude <noreply@anthropic.com>"
-```
+
+**NEVER run `git commit` without `--author="Claude <noreply@anthropic.com>"`.**
+
+If you forget, the commit will be attributed to the user's personal git config, which is incorrect and pollutes the git history. This cannot be easily fixed after pushing.
 
 **IMPORTANT:** Never commit with an empty description. All commits must have a meaningful message describing the changes.
 
