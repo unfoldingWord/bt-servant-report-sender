@@ -41,9 +41,9 @@ class ReportGenerator:
         Returns:
             Path to the generated PDF file.
         """
-        start_date, end_date = self._resolve_dates(start_date, end_date)
-        log_content = self._fetch_logs(start_date, end_date)
-        report_data = self._process_logs(log_content, start_date, end_date)
+        start_date, end_date = self.resolve_dates(start_date, end_date)
+        log_content = self.fetch_logs(start_date, end_date)
+        report_data = self.process_logs(log_content, start_date, end_date)
         pdf_path = self._generate_pdf(report_data, start_date, end_date)
 
         if send_email:
@@ -51,7 +51,7 @@ class ReportGenerator:
 
         return pdf_path
 
-    def _resolve_dates(
+    def resolve_dates(
         self,
         start_date: date | None,
         end_date: date | None,
@@ -91,7 +91,7 @@ class ReportGenerator:
             return end_date - timedelta(days=6)
         return end_date - timedelta(days=29)
 
-    def _fetch_logs(self, start_date: date, end_date: date) -> str:
+    def fetch_logs(self, start_date: date, end_date: date) -> str:
         """Fetch logs from the API for the given date range.
 
         Args:
@@ -104,7 +104,7 @@ class ReportGenerator:
         with LogFetcher(self._config) as fetcher:
             return fetcher.fetch_logs_for_period(start_date, end_date)
 
-    def _process_logs(
+    def process_logs(
         self,
         log_content: str,
         start_date: date,

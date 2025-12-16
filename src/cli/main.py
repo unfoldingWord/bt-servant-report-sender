@@ -81,6 +81,12 @@ def create_parser() -> argparse.ArgumentParser:
     )
 
     parser.add_argument(
+        "--skip-pdf",
+        action="store_true",
+        help="Skip PDF generation (for testing without WeasyPrint)",
+    )
+
+    parser.add_argument(
         "--email-to",
         type=str,
         nargs="+",
@@ -149,6 +155,21 @@ def main(argv: list[str] | None = None) -> int:
             print(f"Output directory: {config.report_output_dir}")
 
         generator = ReportGenerator(config)
+
+        if args.skip_pdf:
+            # Test mode: just fetch and process logs
+            start_date, end_date = generator.resolve_dates(args.start_date, args.end_date)
+            print(f"Date range: {start_date} to {end_date}")
+            print("Fetching logs...")
+            log_content = generator.fetch_logs(start_date, end_date)
+            print(f"Fetched {len(log_content)} bytes of log data")
+            print("Processing logs...")
+            report_data = generator.process_logs(log_content, start_date, end_date)
+            print(f"Processed {report_data.executive_summary.total_interactions} interactions")
+            print(f"Total cost: ${report_data.executive_summary.total_cost_usd:.4f}")
+            print("Test complete (PDF generation skipped)")
+            return 0
+
         pdf_path = generator.generate_and_send(
             start_date=args.start_date,
             end_date=args.end_date,
