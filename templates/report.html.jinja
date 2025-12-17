@@ -224,7 +224,7 @@
 
         {% if report.system_health.error_messages %}
         <h3>Recent Errors</h3>
-        <ul class="warning-list">
+        <ul class="error-list">
             {% for error in report.system_health.error_messages %}
             <li>{{ error }}</li>
             {% endfor %}

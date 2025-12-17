@@ -200,6 +200,20 @@ tr:nth-child(even) {
     font-size: 10pt;
 }
 
+.error-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.error-list li {
+    padding: 0.5rem;
+    background: #f8d7da;
+    border-left: 3px solid #dc3545;
+    margin-bottom: 0.5rem;
+    font-size: 10pt;
+}
+
 /* Footer */
 .report-footer {
     margin-top: 2rem;
