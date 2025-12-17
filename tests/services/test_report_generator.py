@@ -75,6 +75,7 @@ def sample_report_data() -> ReportData:
             warning_count=5,
             error_count=1,
             warning_messages=[],
+            error_messages=[],
         ),
     )
 

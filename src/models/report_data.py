@@ -62,6 +62,7 @@ class SystemHealth(BaseModel):
     error_count: int
     success_rate_percent: Decimal
     warning_messages: list[str]
+    error_messages: list[str]
 
 
 class ReportData(BaseModel):

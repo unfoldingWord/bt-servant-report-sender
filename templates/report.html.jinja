@@ -79,14 +79,6 @@
                     <td>Output Tokens</td>
                     <td class="text-right">${{ "%.4f"|format(report.cost_breakdown.total_output_cost_usd) }}</td>
                 </tr>
-                <tr>
-                    <td>Cached Tokens</td>
-                    <td class="text-right">${{ "%.4f"|format(report.cost_breakdown.total_cached_cost_usd) }}</td>
-                </tr>
-                <tr>
-                    <td>Audio Tokens</td>
-                    <td class="text-right">${{ "%.4f"|format(report.cost_breakdown.total_audio_cost_usd) }}</td>
-                </tr>
             </tbody>
         </table>
 
@@ -229,6 +221,15 @@
                 </tr>
             </tbody>
         </table>
+
+        {% if report.system_health.error_messages %}
+        <h3>Recent Errors</h3>
+        <ul class="warning-list">
+            {% for error in report.system_health.error_messages %}
+            <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
 
         {% if report.system_health.warning_messages %}
         <h3>Recent Warnings</h3>

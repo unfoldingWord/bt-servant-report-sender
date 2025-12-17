@@ -17,6 +17,7 @@ from src.models.report_data import (
 )
 from src.parsers.log_parser import (
     count_by_level,
+    extract_errors,
     extract_intents,
     extract_languages,
     extract_unique_users,
@@ -260,6 +261,7 @@ def calculate_system_health(log_entries: list[LogEntry]) -> SystemHealth:
     """
     level_counts = count_by_level(log_entries)
     warnings = extract_warnings(log_entries)
+    errors = extract_errors(log_entries)
 
     total_requests = sum(level_counts.values())
     warning_count = level_counts.get("WARNING", 0)
@@ -276,4 +278,5 @@ def calculate_system_health(log_entries: list[LogEntry]) -> SystemHealth:
         error_count=error_count,
         success_rate_percent=success_rate.quantize(Decimal("0.01")),
         warning_messages=warnings[:10],
+        error_messages=errors[:10],
     )

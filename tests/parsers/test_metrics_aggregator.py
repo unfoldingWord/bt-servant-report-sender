@@ -233,6 +233,7 @@ class TestCalculateSystemHealth:
         result = calculate_system_health([])
         assert result.total_requests == 0
         assert result.success_rate_percent == Decimal("100")
+        assert result.error_messages == []
 
     def test_with_entries(self, sample_log_entries: list[LogEntry]) -> None:
         """Test system health with sample entries."""
@@ -241,6 +242,7 @@ class TestCalculateSystemHealth:
         assert result.warning_count == 1
         assert result.error_count == 0
         assert result.success_rate_percent == Decimal("100.00")
+        assert result.error_messages == []
 
 
 class TestCalculateExecutiveSummary:
@@ -293,3 +295,4 @@ class TestAggregateMetrics:
         assert result.performance.avg_response_time_ms == Decimal("10000")
         assert result.usage.unique_users == 1
         assert result.system_health.warning_count == 1
+        assert result.system_health.error_messages == []

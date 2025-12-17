@@ -121,6 +121,24 @@ def extract_warnings(log_entries: list[LogEntry]) -> list[str]:
     return warnings
 
 
+def extract_errors(log_entries: list[LogEntry]) -> list[str]:
+    """Extract error messages from logs.
+
+    Args:
+        log_entries: List of LogEntry objects.
+
+    Returns:
+        List of unique error messages.
+    """
+    errors: list[str] = []
+
+    for entry in log_entries:
+        if entry.level == "ERROR" and entry.message not in errors:
+            errors.append(entry.message)
+
+    return errors
+
+
 def count_by_level(log_entries: list[LogEntry]) -> dict[str, int]:
     """Count log entries by level.
 
