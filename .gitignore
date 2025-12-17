@@ -1,2 +1,6 @@
 # Ignore generated reports
 reports/
+
+# Local env and caches
+.env
+__pycache__/
