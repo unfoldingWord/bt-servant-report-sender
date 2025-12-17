@@ -8,7 +8,7 @@ bt-servant-report-sender generates and sends usage reports for the bt-servant-en
 
 ## Git Conventions (Codex)
 
-- **Author flag is mandatory for every commit.** Always commit with `--author="Codex <noreply@anthropic.com>"`.
+- **Author flag is mandatory for every commit.** Always commit with `--author="Codex <153950304+IanLindsley@users.noreply.github.com>"` (use the GitHub noreply alias to avoid mapping to other accounts).
 - **Commit messages must be meaningful.** Summarize what changed and why; no empty or generic titles.
 - **Run pre-commit before committing.** `git add -A && pre-commit run --all-files` must pass. Do not skip with `--no-verify`; fix issues instead.
 
