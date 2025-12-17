@@ -4,7 +4,7 @@ from datetime import date
 from enum import Enum
 from pathlib import Path
 
-from pydantic import EmailStr, Field, SecretStr
+from pydantic import EmailStr, Field, SecretStr, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -45,3 +45,11 @@ class AppConfig(BaseSettings):
 
     # Output
     report_output_dir: Path = Field(default=Path("./reports"))
+
+    @field_validator("email_to", mode="before")
+    @classmethod
+    def _parse_email_to(cls, value: object) -> object:
+        """Allow comma- or semicolon-delimited strings for email_to."""
+        if isinstance(value, str):
+            return [part.strip() for part in value.replace(";", ",").split(",") if part.strip()]
+        return value
