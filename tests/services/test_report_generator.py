@@ -152,8 +152,8 @@ class TestReportGeneratorPipeline:
         mock_config.report_output_dir = tmp_path
 
         with (
-            patch.object(ReportGenerator, "_fetch_logs") as mock_fetch,
-            patch.object(ReportGenerator, "_process_logs") as mock_process,
+            patch.object(ReportGenerator, "fetch_logs") as mock_fetch,
+            patch.object(ReportGenerator, "process_logs") as mock_process,
             patch.object(ReportGenerator, "_generate_pdf") as mock_pdf,
             patch.object(ReportGenerator, "_send_email") as mock_email,
         ):
@@ -183,8 +183,8 @@ class TestReportGeneratorPipeline:
         mock_config.report_output_dir = tmp_path
 
         with (
-            patch.object(ReportGenerator, "_fetch_logs") as mock_fetch,
-            patch.object(ReportGenerator, "_process_logs") as mock_process,
+            patch.object(ReportGenerator, "fetch_logs") as mock_fetch,
+            patch.object(ReportGenerator, "process_logs") as mock_process,
             patch.object(ReportGenerator, "_generate_pdf") as mock_pdf,
             patch.object(ReportGenerator, "_send_email") as mock_email,
         ):
@@ -217,7 +217,7 @@ class TestReportGeneratorLogFetching:
             mock_fetcher_class.return_value.__exit__ = MagicMock(return_value=False)
 
             generator = ReportGenerator(mock_config)
-            content = generator._fetch_logs(date(2024, 1, 15), date(2024, 1, 15))
+            content = generator.fetch_logs(date(2024, 1, 15), date(2024, 1, 15))
 
             mock_fetcher.fetch_logs_for_period.assert_called_once_with(
                 date(2024, 1, 15),
@@ -235,19 +235,22 @@ class TestReportGeneratorLogProcessing:
         sample_report_data: ReportData,
     ) -> None:
         """Test logs are processed into ReportData."""
-        log_content = '{"message": "test", "timestamp": "2024-01-15T12:00:00Z"}'
-
         with (
             patch("src.services.report_generator.parse_log_lines") as mock_parse,
             patch("src.services.report_generator.extract_perf_reports") as mock_extract,
             patch("src.services.report_generator.aggregate_metrics") as mock_aggregate,
         ):
-            mock_parse.return_value = iter([MagicMock()])
+            log_content = "irrelevant"
+            in_range = MagicMock()
+            in_range.timestamp = datetime(2024, 1, 15, 12, 0, 0, tzinfo=UTC)
+            out_of_range = MagicMock()
+            out_of_range.timestamp = datetime(2024, 2, 1, 12, 0, 0, tzinfo=UTC)
+            mock_parse.return_value = iter([in_range, out_of_range])
             mock_extract.return_value = []
             mock_aggregate.return_value = sample_report_data
 
             generator = ReportGenerator(mock_config)
-            result = generator._process_logs(
+            result = generator.process_logs(
                 log_content,
                 date(2024, 1, 15),
                 date(2024, 1, 15),
@@ -255,6 +258,8 @@ class TestReportGeneratorLogProcessing:
 
             assert result == sample_report_data
             mock_aggregate.assert_called_once()
+            filtered_entries = mock_aggregate.call_args[0][1]
+            assert filtered_entries == [in_range]
 
 
 class TestReportGeneratorPdfGeneration:

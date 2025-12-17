@@ -131,9 +131,7 @@ class LogFetcher:
 
         all_content: list[str] = []
         for file_entry in files_payload.files:
-            file_date = file_entry.modified_at.date()
-            if start_date <= file_date <= end_date:
-                content = self.download_log_file(file_entry.name)
-                all_content.append(content)
+            content = self.download_log_file(file_entry.name)
+            all_content.append(content)
 
         return "\n".join(all_content)

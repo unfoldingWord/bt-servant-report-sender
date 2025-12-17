@@ -120,7 +120,11 @@ class ReportGenerator:
         Returns:
             Aggregated ReportData.
         """
-        log_entries = list(parse_log_lines(log_content))
+        log_entries = [
+            entry
+            for entry in parse_log_lines(log_content)
+            if start_date <= entry.timestamp.date() <= end_date
+        ]
         perf_reports = extract_perf_reports(iter(log_entries))
         return aggregate_metrics(perf_reports, log_entries, start_date, end_date)
 
