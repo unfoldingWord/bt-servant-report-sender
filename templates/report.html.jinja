@@ -213,7 +213,7 @@
         <p>
             <strong>Success Rate:</strong>
             <span class="health-indicator {% if report.system_health.success_rate_percent >= 99 %}health-good{% elif report.system_health.success_rate_percent >= 95 %}health-warning{% else %}health-critical{% endif %}">
-                {{ "%.1f"|format(report.system_health.success_rate_percent) }}%
+                {{ "%.2f"|format(report.system_health.success_rate_percent) }}%
             </span>
         </p>
 
